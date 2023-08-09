@@ -1,8 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import Chart from "react-apexcharts";
+import dynamic from 'next/dynamic';
+
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 interface Stock {
     stock: {
