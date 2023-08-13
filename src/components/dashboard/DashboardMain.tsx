@@ -182,7 +182,7 @@ const DashboardMain = () => {
 
     }, [stockName, stockHistory])
     return (
-        <div className='pt-24 w-screen px-5 sm:px-10 md:px-16 lg:px-24 xl:px-36 2xl:px-44 flex flex-col items-center text-slate-200'>
+        <div className='pt-16 w-screen px-5 sm:px-10 md:px-16 lg:px-24 xl:px-36 2xl:px-44 flex flex-col items-center text-slate-200'>
             <ul className='flex border-x border-slate-800 items-center w-full justify-between overflow-x-auto p-5 xl:p-10 gap-10'>
                 {listCoins.map(item => (
                     <li onClick={() => {
@@ -191,8 +191,8 @@ const DashboardMain = () => {
                     }} key={item} className={`cursor-pointer border ${stockName === item ? 'border-white text-white' : 'border-slate-800'} px-6 py-1 hover:text-white hover:border-white`}>{item}</li>
                 ))}
             </ul>
-            <div className='flex w-full flex-col xl:flex-row items-start gap-10 border-x border-slate-800 px-5 xl:px-10'>
-                <div className='w-[61rem] bg-slate-800 shadow-sm shadow-white text-slate-800'>
+            <div className='flex w-full flex-col xl:flex-row items-start gap-10 xl:border-x xl:border-slate-800 xl:px-5  2xl:px-10'>
+                <div className='w-[81%] h-[757px] bg-slate-950 border border-slate-800 text-slate-800'>
                     {stock?.symbol && stock.symbol.length > 0 ? <Chart options={{
                         xaxis: {
                             type: 'datetime',
@@ -249,7 +249,7 @@ const DashboardMain = () => {
                         ]}
                         type='candlestick'
                     /> :
-                        <div className='w-full flex items-center justify-center h-[15rem] sm:h-[25rem] md:h-[32rem] lg:h-[15rem] 2xl:h-[39rem] animate-pulse bg-slate-950 shadow-sm shadow-white'>
+                        <div className='w-full flex items-center justify-center h-[15rem] sm:h-[25rem] md:h-[32rem] lg:h-[15rem] 2xl:h-[757px] animate-pulse bg-slate-900 border border-slate-800'>
                             <div className='text-white flex items-center gap-3'>
                                 <div className='bg-none border-2 w-6 h-6 relative rounded-full animate-spin flex items-center justify-center'>
                                     <div className='absolute bg-slate-950 top-0 w-4 h-4 rounded-none'></div>

@@ -137,7 +137,7 @@ const Main = () => {
 
     return (
         <main className=' bg-[url(/bg.svg)] w-screen bg-no-repeat bg-cover pt-24 lg:h-screen pb-10 flex flex-col items-center justify-center px-5 sm:px-10 md:px-16b lg:px-24 xl:px-36 2xl:px-44'>
-            <div className='flex items-center justify-between flex-col w-full gap-10 md:gap-20 lg:flex-row'>
+            <div className='flex items-center justify-between flex-col w-full gap-10 md:gap-20 lg:flex-row px-5 2xl:px-10 border-x border-slate-800 h-full'>
                 <div className='flex flex-col text-white gap-6'>
                     <h1 className='text-3xl sm:text-4xl xl:text-5xl'>CoinTrade: Your Gateway to Seamless Crypto Trading</h1>
                     <h2 className='text-slate-200 leading-7'>Effortlessly Trade, Exchange, and Grow Your Digital Assets</h2>

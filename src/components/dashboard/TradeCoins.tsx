@@ -30,7 +30,7 @@ const TradeCoins = () => {
 
     const [listCoins, setListCoins] = useState(['BTC', 'ETH', 'BNB', 'XRP', 'SOl', 'SHIB', 'DOGE', 'APT', 'LTC', 'MATIC', 'OXT', 'BNT'])
 
-    const [skeleton, setSkeleton] = useState(['1', '2', '3', '4', '5', '6', '7', '8'])
+    const [skeleton, setSkeleton] = useState(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
 
     const [allCoins, setAllCoins] = useState<CoinSearch[]>([])
 
@@ -42,7 +42,7 @@ const TradeCoins = () => {
 
     const filterCoins = allCoins.filter((item) => item.coin.toUpperCase().includes(searchQuery.toUpperCase())).slice(0, 50)
 
-    const itemsPerPage = 8
+    const itemsPerPage = 10
 
     const [currentPage, setCurrentPage] = useState(1)
 
@@ -119,9 +119,16 @@ const TradeCoins = () => {
                 image: `https://www.cryptocompare.com${coinDetails[0].USD.IMAGEURL}`,
             }
 
-            setCurrentCoins(prevState => [...prevState, coinData])
+            if (coinData.data.CHANGE24HOUR) {
 
-            alert(`${item} Adde to list.`)
+                alert(`${item} Added to list.`)
+                setCurrentCoins(prevState => [...prevState, coinData])
+
+            } else {
+
+                alert(`Something went wrong fetching ${item} data.`)
+            }
+
 
         } catch (error) {
 
@@ -178,7 +185,7 @@ const TradeCoins = () => {
     }, [])
 
     return (
-        <div className='px-5 sm:px-10 md:px-16 lg:px-24 w-screen h-screen xl:px-36 2xl:px-44 pt-24 flex flex-col items-center'>
+        <div className='px-5 sm:px-10 md:px-16 lg:px-24 w-screen h-screen xl:px-36 2xl:px-44 pt-16 flex flex-col items-center'>
             <div className='w-full py-7 flex items-center px-5 xl:px-10 border-x border-slate-800'>
                 <div className='w-full flex items-center justify-between gap-10'>
                     <div className='w-1/4 relative'>
@@ -316,9 +323,9 @@ const TradeCoins = () => {
                     </tbody>
                 </table>
             </div>
-            <div className='text-slate-300 flex justify-end items-center gap-3 px-5 xl:px-10 border-x pb-10 pt-5 border-slate-800 w-full mt-auto'>
+            <div className='text-slate-300 flex justify-end items-center gap-3 px-5 xl:px-10 border-x py-6 border-slate-800 w-full'>
                 <button
-                    className={`text-white px-5 ${currentPage === 1 ? 'hidden' : ''}`}
+                    className={`text-white px-5`}
                     disabled={currentPage === 1}
                     onClick={() => handlePageChange(currentPage - 1)}
                 >
@@ -326,7 +333,7 @@ const TradeCoins = () => {
                 </button>
                 <span>{currentPage} / {getTotalPages()}</span>
                 <button
-                    className={`text-white px-5 ${end >= currentCoins.length ? 'hidden' : ''}`}
+                    className={`text-white px-5`}
                     disabled={end >= currentCoins.length}
                     onClick={() => handlePageChange(currentPage + 1)}
                 >

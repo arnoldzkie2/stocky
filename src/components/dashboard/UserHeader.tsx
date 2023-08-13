@@ -11,7 +11,7 @@ const UserHeader = () => {
     const [checkProfile, setCheckProfile] = useState(false)
 
     return (
-        <header className='fixed z-50 top-0 left-0 w-screen flex items-center px-5 sm:px-10 md:px-16 lg:px-24 xl:px-36 2xl:px-44 h-20 border-b border-slate-800 bg-slate-950'>
+        <header className='fixed z-50 top-0 left-0 w-screen flex items-center px-5 sm:px-10 md:px-16 lg:px-24 xl:px-36 2xl:px-44 h-16 border-b border-slate-800 bg-slate-950'>
             <Link href={'/'} className='text-white font-black text-xl md:text-2xl'>CoinTrade</Link>
             <ul className='text-slate-300 flex items-center w-full justify-end gap-5 md:gap-8'>
                 <Link className='hover:text-white text-sm md:text-base' href='/dashboard'>Home</Link>
@@ -19,7 +19,7 @@ const UserHeader = () => {
                 <div className='relative flex items-center text-sm md:text-base gap-2 hover:text-white cursor-pointer' onClick={() => setCheckProfile(prevState => !prevState)}>
                     <div>{user}</div>
                     <FontAwesomeIcon icon={checkProfile ? faChevronUp : faChevronDown} width={16} height={16}/>
-                    <ul className={` bg-slate-900 py-3 px-5 gap-2 top-7 w-full flex flex-col text-slate-300 ${checkProfile ? 'absolute' : 'hidden'}`}>
+                    <ul className={` bg-slate-900 py-3 px-5 gap-2 top-7 flex flex-col text-slate-300 ${checkProfile ? 'absolute' : 'hidden'}`}>
                         <Link className='hover:text-white' href={'/profile'}>Profile</Link>
                         <Link className='hover:text-white' href={'/transactions'}>Transactions</Link>
                         <Link className='hover:text-white' href={'/logout'}>Logout</Link>
