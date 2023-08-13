@@ -15,13 +15,14 @@ const UserHeader = () => {
             <Link href={'/'} className='text-white font-black text-xl md:text-2xl'>CoinTrade</Link>
             <ul className='text-slate-300 flex items-center w-full justify-end gap-5 md:gap-8'>
                 <Link className='hover:text-white text-sm md:text-base' href='/dashboard'>Home</Link>
+                <Link className='hover:text-white text-sm md:text-base' href='/trade'>Trade</Link>
                 <div className='relative flex items-center text-sm md:text-base gap-2 hover:text-white cursor-pointer' onClick={() => setCheckProfile(prevState => !prevState)}>
                     <div>{user}</div>
-                    <FontAwesomeIcon icon={checkProfile ? faChevronUp : faChevronDown} />
+                    <FontAwesomeIcon icon={checkProfile ? faChevronUp : faChevronDown} width={16} height={16}/>
                     <ul className={` bg-slate-900 py-3 px-5 gap-2 top-7 w-full flex flex-col text-slate-300 ${checkProfile ? 'absolute' : 'hidden'}`}>
                         <Link className='hover:text-white' href={'/profile'}>Profile</Link>
-                        <Link className='hover:text-white' href={'/profile'}>History</Link>
-                        <Link className='hover:text-white' href={'/profile'}>Logout</Link>
+                        <Link className='hover:text-white' href={'/transactions'}>Transactions</Link>
+                        <Link className='hover:text-white' href={'/logout'}>Logout</Link>
                     </ul>
                 </div>
             </ul>

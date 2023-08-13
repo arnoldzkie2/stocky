@@ -135,12 +135,6 @@ const Main = () => {
 
     }, [stockName, stockHistory])
 
-    const lastY = stock?.stock[stock.stock.length - 1].y;
-
-    const firstY = stock?.stock[0].y;
-
-    const color = firstY! - lastY! > 0 ? '#26C281' : '#ed3419'
-
     return (
         <main className=' bg-[url(/bg.svg)] w-screen bg-no-repeat bg-cover pt-24 lg:h-screen pb-10 flex flex-col items-center justify-center px-5 sm:px-10 md:px-16b lg:px-24 xl:px-36 2xl:px-44'>
             <div className='flex items-center justify-between flex-col w-full gap-10 md:gap-20 lg:flex-row'>
@@ -195,7 +189,6 @@ const Main = () => {
                                     color: '#FFF'
                                 }
                             },
-                            colors: [color],
                         }
                         }
                             series={[
