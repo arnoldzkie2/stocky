@@ -8,7 +8,7 @@ interface Props {
     user: {
         name: string
         token: string
-        isAdmin: boolean
+        is_admin: boolean
     }
 }
 

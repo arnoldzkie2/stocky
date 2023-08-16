@@ -51,7 +51,7 @@ export interface Trades {
 const Page = ({ params }: Props) => {
 
 
-    const [user, setUser] = useState({ name: 'Arnold Nillas', token: '', isAdmin: false })
+    const [user, setUser] = useState({ name: 'Arnold Nillas', token: '', is_admin: false })
 
     const router = useRouter()
 

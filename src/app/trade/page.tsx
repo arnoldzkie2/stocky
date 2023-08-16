@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 
 const Page = () => {
 
-    const [user, setUser] = useState({ name: 'Arnold Nillas', token: '', isAdmin: false })
+    const [user, setUser] = useState({ name: 'Arnold Nillas', token: '', is_admin: false })
 
     useEffect(() => {
 

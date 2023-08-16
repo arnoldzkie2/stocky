@@ -21,7 +21,7 @@ interface AllCoins {
 
 const Page = () => {
 
-  const [user, setUser] = useState({ name: 'Arnold Nillas', token: '', isAdmin: false })
+  const [user, setUser] = useState({ name: 'Arnold Nillas', token: '', is_admin: false })
 
   const [skeleton, setSkeleton] = useState(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
 
@@ -189,7 +189,7 @@ const Page = () => {
       price: 29357.331374
     },
   ])
-  
+
   const [modifiedCoins, setModifiedCoins] = useState<AllCoins[]>([])
 
   const filterCoins = modifiedCoins.filter((item) => item.coin.toUpperCase().includes(searchQuery.toUpperCase()))
