@@ -19,7 +19,7 @@ interface TradeCoins {
     image: string
 }
 
-interface CoinSearch {
+export interface CoinSearch {
     name: string
     full_name: string
     image: string
@@ -91,8 +91,6 @@ const TradeCoins = () => {
 
         if (!listCoins.includes(item)) {
 
-            setListCoins(prevState => [...prevState, item]);
-
             fetchSingleCoin(item)
 
             setSearchQuery('');
@@ -121,14 +119,19 @@ const TradeCoins = () => {
 
             if (coinData.data.CHANGE24HOUR) {
 
+                const listCoin = [item, ...listCoins]
+
+                localStorage.setItem('listCoins', JSON.stringify(listCoin))
+
                 alert(`${item} Added to list.`)
-                setCurrentCoins(prevState => [...prevState, coinData])
+
+                setCurrentCoins(prevState => [coinData, ...prevState])
 
             } else {
 
                 alert(`Something went wrong fetching ${item} data.`)
-            }
 
+            }
 
         } catch (error) {
 
@@ -137,11 +140,12 @@ const TradeCoins = () => {
         }
 
     }
+
     const fetchCoinPrice = async () => {
 
         try {
 
-            const res = await Promise.all(listCoins.map(async (item) => {
+            const res: any = await Promise.all(listCoins.map(async (item) => {
 
                 const { data } = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${item}&tsyms=USD`)
 
@@ -153,7 +157,7 @@ const TradeCoins = () => {
                     image: `https://www.cryptocompare.com${coinDetails[0].USD.IMAGEURL}`,
                 }
 
-                return coinData
+                    return coinData
 
             }))
 
@@ -168,8 +172,6 @@ const TradeCoins = () => {
 
     useEffect(() => {
 
-        fetchCoinPrice()
-
         const coins = localStorage.getItem('coins')
 
         if (coins) {
@@ -182,19 +184,33 @@ const TradeCoins = () => {
 
         }
 
+        const listCoin = localStorage.getItem('listCoins')
+
+        if(listCoin) {
+
+            setListCoins(JSON.parse(listCoin))
+
+        }
+
     }, [])
+
+    useEffect(() => {
+
+        fetchCoinPrice()
+
+    }, [listCoins])
 
     return (
         <div className='px-5 sm:px-10 md:px-16 lg:px-24 w-screen h-screen xl:px-36 2xl:px-44 pt-16 flex flex-col items-center'>
-            <div className='w-full py-7 flex items-center px-5 xl:px-10 border-x border-slate-800'>
+            <div className='w-full py-7 flex items-center lg:px-5 xl:px-10 lg:border-x lg:border-slate-800'>
                 <div className='w-full flex items-center justify-between gap-10'>
-                    <div className='w-1/4 relative'>
+                    <div className='w-1/2 md:w-1/3 xl:w-1/4 relative'>
                         <input type="text" id='search-coin' placeholder='Search Coins' value={coinsSearch} onChange={(e: any) => setCoinsSearch(e.target.value)} className='px-4 py-2 bg-slate-800 text-slate-200 w-full outline-none' />
                         <label htmlFor="search-coin" className='cursor-pointer'>
                             <FontAwesomeIcon icon={faSearch} className='absolute right-5 text-slate-200 top-2.5 w-5 h-5 hover:text-white' />
                         </label>
                     </div>
-                    <div className='w-1/4 relative'>
+                    <div className='w-1/2 md:w-1/3 xl:w-1/4 relative'>
                         <input type="text" id='search' placeholder='Add Coins' value={searchQuery} onChange={(e: any) => setSearchQuery(e.target.value)} className='px-4 py-2 bg-slate-800 text-slate-200 w-full outline-none' />
                         <label htmlFor="search" className='cursor-pointer'>
                             <FontAwesomeIcon icon={faSearch} className='absolute right-5 text-slate-200 top-2.5 w-5 h-5 hover:text-white' />
@@ -219,101 +235,102 @@ const TradeCoins = () => {
                 </div>
             </div>
 
-            <div className="relative overflow-x-auto w-full px-5 xl:px-10 border-x border-slate-800">
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-slate-200 bg-gray-50 dark:bg-slate-700 dark:text-white">
+            <div className="relative overflow-x-auto w-full lg:px-5 xl:px-10 lg:border-x lg:border-slate-800">
+                <table className="w-full text-xs md:text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead className=" text-slate-200 bg-gray-50 dark:bg-slate-700 dark:text-white">
                         <tr>
-                            <th scope="col" className="px-6 py-3">
-                                Name
+                            <th scope="col" className="px-5 py-2 md:px-6 md:py-4">
+                                Coin
                             </th>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-5 py-2 md:px-6 md:py-4">
                                 Price
                             </th>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-5 py-2 md:px-6 md:py-4">
                                 High
                             </th>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-5 py-2 md:px-6 md:py-4">
                                 24h Change
                             </th>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-5 py-2 md:px-6 md:py-4">
                                 Market Cap
                             </th>
-                            <th scope="col" className="px-6 py-3">
+                            <th scope="col" className="px-5 py-2 md:px-6 md:py-4">
 
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         {itemsOnCurrentPage.length > 0 ? itemsOnCurrentPage.map(item => (
-                            <tr className="bg-white border-b text-slate-200 dark:bg-gray-800 dark:border-gray-700 text-xs" key={item.coin}>
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 flex items-center gap-3 whitespace-nowrap dark:text-white">
+                            <tr className="bg-white border-b text-slate-200 dark:bg-gray-800 dark:border-gray-700" key={item.coin}>
+                                <th scope="row" className="px-5 py-3 md:px-6 md:py-4 font-medium text-gray-900 flex items-center gap-3 whitespace-nowrap dark:text-white">
                                     <img src={item.image} alt={item.coin} width={30} height={30} />
-                                    <div className='text-white flex items-center'>{item.coin}</div>
+                                    <div className='text-white flex items-center w-14'>{item.coin}</div>
                                 </th>
-                                <td className="px-6 py-4">
-                                    <div className='h-4'>
+                                <td className="px-5 py-3 md:px-6 md:py-4">
+                                    <div className='h-4 w-28'>
                                         {item.data.PRICE}
                                     </div>
                                 </td>
-                                <td className="px-6 py-4">
-                                    <div className='h-4'>
+                                <td className="px-5 py-3 md:px-6 md:py-4">
+                                    <div className='h-4 w-28'>
                                         {item.data.HIGHDAY}
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 flex items-center gap-2" style={{ color: item.data.CHANGE24HOUR.includes("-") ? "#ef4444" : "#059669" }}>
-                                    <div className='h-4'>
+                                <td className="px-5 py-3 md:px-6 md:py-4 flex items-center gap-2" style={{ color: item.data.CHANGE24HOUR.includes("-") ? "#ef4444" : "#059669" }}>
+                                    <div className='h-4 w-24'>
                                         {item.data.CHANGE24HOUR}
                                     </div>
                                 </td>
-                                <td className="px-6 py-4">
-                                    <div className='h-4'>
+                                <td className="px-5 py-3 md:px-6 md:py-4">
+                                    <div className='h-4 w-16'>
                                         {item.data.MKTCAP}
                                     </div>
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-5 py-3 md:px-6 md:py-4">
                                     <Link href={`/trade/${item.coin}`} className='text-yellow-400 hover:text-yellow-300'>Trade</Link>
                                 </td>
                             </tr>
                         ))
                             : currentCoins.length > 0 && coinsSearch ?
-                                <tr className="bg-white border-b text-slate-200 dark:bg-gray-800 dark:border-gray-700 text-xs">
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 flex items-center gap-3 whitespace-nowrap dark:text-white">
+                                <tr className="bg-white border-b text-slate-200 dark:bg-gray-800 dark:border-gray-700 text-[8px] sm:text-xs">
+                                    <th scope="row" className="px-5 py-3 md:px-6 md:py-4 font-medium text-gray-900 flex items-center gap-3 whitespace-nowrap dark:text-white">
                                         <div className='text-white flex items-center'>No</div>
                                     </th>
-                                    <td className="px-6 py-4">
+                                    <td className="px-5 py-3 md:px-6 md:py-4">
                                         Coins
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-5 py-3 md:px-6 md:py-4">
                                         Found
                                     </td>
-                                    <td className="px-6 py-4 flex items-center gap-2">
+                                    <td className="px-5 py-3 md:px-6 md:py-4 flex items-center gap-2">
                                         In
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-5 py-3 md:px-6 md:py-4">
                                         Search
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-5 py-3 md:px-6 md:py-4">
                                         Result
                                     </td>
                                 </tr> :
                                 skeleton.map(item => (
                                     <tr className="bg-white border-b text-slate-200 dark:bg-gray-800 dark:border-gray-700" key={item}>
-                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 flex items-center gap-3 whitespace-nowrap dark:text-white">
-                                            <div className='w-16 h-[34px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                        <th scope="row" className="px-5 py-3 md:px-6 md:py-4 font-medium text-gray-900 flex items-center gap-3 whitespace-nowrap dark:text-white">
+                                            <div className='w-[30px] h-[30px] rounded-full bg-slate-600 animate-pulse'></div>
+                                            <div className='w-14 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </th>
-                                        <td className="px-6 py-4">
-                                            <div className='w-24 h-[34px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                        <td className="px-5 py-3 md:px-6 md:py-4">
+                                            <div className='w-24 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <div className='w-24 h-[34px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                        <td className="px-5 py-3 md:px-6 md:py-4">
+                                            <div className='w-24 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </td>
-                                        <td className="px-6 py-4 flex items-center gap-2">
-                                            <div className='w-16 h-[34px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                        <td className="px-5 py-3 md:px-6 md:py-4 flex items-center gap-2">
+                                            <div className='w-16 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <div className='w-24 h-[34px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                        <td className="px-5 py-3 md:px-6 md:py-4">
+                                            <div className='w-24 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </td>
-                                        <td className="px-6 py-4 h-[34px] text-lg">
+                                        <td className="px-5 py-3 md:px-6 md:py-4 h-[30px] text-lg">
                                             <FontAwesomeIcon icon={faSpinner} width={16} height={16} className='animate-spin' />
                                         </td>
                                     </tr>
@@ -323,6 +340,7 @@ const TradeCoins = () => {
                     </tbody>
                 </table>
             </div>
+
             <div className='text-slate-300 flex justify-end items-center gap-3 px-5 xl:px-10 border-x py-6 border-slate-800 w-full'>
                 <button
                     className={`text-white px-5`}
@@ -340,6 +358,7 @@ const TradeCoins = () => {
                     Next
                 </button>
             </div>
+
         </div >
     )
 }

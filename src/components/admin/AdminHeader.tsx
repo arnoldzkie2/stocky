@@ -1,5 +1,5 @@
 'use client'
-import { faBars, faBoxesStacked, faChevronDown, faChevronUp, faHome, faListCheck, faRightFromBracket, faUser, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faChevronDown, faChevronUp, faRightFromBracket, faUser, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -12,7 +12,7 @@ interface Props {
     }
 }
 
-const UserHeader: React.FC<Props> = ({ user }) => {
+const AdminHeader: React.FC<Props> = ({ user }) => {
 
     const [checkProfile, setCheckProfile] = useState(false)
 
@@ -29,12 +29,12 @@ const UserHeader: React.FC<Props> = ({ user }) => {
                 <FontAwesomeIcon icon={menu ? faXmark : faBars} width={16} height={16} className='text-2xl cursor-pointer absolute z-10 right-5 top-5 text-white md:hidden' onClick={() => setMenu(prevData => !prevData)} />
                 <ul className={`w-full justify-end md:flex lg:items-center md:gap-8 ${menu ? 'gap-5 shadow-2xl flex flex-col fixed top-0 left-0 w-screen bg-slate-950 p-10 border-b border-slate-800 text-gray-slate-300' : 'hidden'}`}>
 
-                    <Link href={'/dashboard'} className='flex items-center gap-2 cursor-pointer hover:text-white'>
-                        <div>Dashboard</div>
+                    <Link href={'/admin'} className='flex items-center gap-2 cursor-pointer hover:text-white'>
+                        <div>Traders</div>
                     </Link>
 
-                    <Link href={'/trade'} className='flex items-center gap-2 cursor-pointer hover:text-white'>
-                        <div>Trade</div>
+                    <Link href={'/admin/transactions'} className='flex items-center gap-2 cursor-pointer hover:text-white'>
+                        <div>Transactions</div>
                     </Link>
 
                     <li className='relative'>
@@ -43,10 +43,6 @@ const UserHeader: React.FC<Props> = ({ user }) => {
                         </button>
                         <ul className={`py-3 w-full flex flex-col gap-3 px-5 absolute bg-slate-800 ${!checkProfile && 'hidden'}`}>
 
-                            <Link href={'/profile'} className='flex items-center hover:text-white gap-3 cursor-pointer'>
-                                Profile
-                                <FontAwesomeIcon icon={faUser} />
-                            </Link>
                             <li className='flex items-center hover:text-white gap-3 cursor-pointer' onClick={(e: any) => logout(e)}>
                                 Logout
                                 <FontAwesomeIcon icon={faRightFromBracket} />
@@ -59,5 +55,4 @@ const UserHeader: React.FC<Props> = ({ user }) => {
     )
 }
 
-export default UserHeader
-
+export default AdminHeader
