@@ -2,6 +2,7 @@
 import { faBars, faBoxesStacked, faChevronDown, faChevronUp, faHome, faListCheck, faRightFromBracket, faUser, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 interface Props {
@@ -14,11 +15,25 @@ interface Props {
 
 const UserHeader: React.FC<Props> = ({ user }) => {
 
+    const router = useRouter()
+
     const [checkProfile, setCheckProfile] = useState(false)
 
     const [menu, setMenu] = useState(false)
 
     const logout = async (e: any) => {
+
+        try {
+
+            localStorage.clear()
+
+            router.push('/login')
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
 
     }
 

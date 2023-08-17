@@ -31,7 +31,7 @@ const DashboardMain = () => {
 
             setStock({ stock: [{ x: 0, y: 0 }], symbol: '' })
 
-            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histominute?fsym=${stockName}&tsym=USD&limit=1439`)
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histominute?fsym=${stockName}&tsym=USD&limit=1439&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
             const formatData = data.Data.Data.map((item: any) => ({
                 x: item.time * 1000,
@@ -56,7 +56,7 @@ const DashboardMain = () => {
 
         setStock({ stock: [{ x: 0, y: 0 }], symbol: '' })
 
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histohour?fsym=${stockName}&tsym=USD&limit=167`)
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histohour?fsym=${stockName}&tsym=USD&limit=167&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
         const formatData = data.Data.Data.map((item: any) => ({
             x: item.time * 1000,
@@ -76,7 +76,7 @@ const DashboardMain = () => {
 
         setStock({ stock: [{ x: 0, y: 0 }], symbol: '' })
 
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histohour?fsym=${stockName}&tsym=USD&limit=719`)
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histohour?fsym=${stockName}&tsym=USD&limit=719&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
         const formatData = data.Data.Data.map((item: any) => ({
             x: item.time * 1000,
@@ -96,7 +96,7 @@ const DashboardMain = () => {
 
         setStock({ stock: [{ x: 0, y: 0 }], symbol: '' })
 
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histoday?fsym=${stockName}&tsym=USD&limit=59`)
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histoday?fsym=${stockName}&tsym=USD&limit=59&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
         const formatData = data.Data.Data.map((item: any) => ({
             x: item.time * 1000,
@@ -116,7 +116,7 @@ const DashboardMain = () => {
 
         setStock({ stock: [{ x: 0, y: 0 }], symbol: '' })
 
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histoday?fsym=${stockName}&tsym=USD&limit=364`)
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histoday?fsym=${stockName}&tsym=USD&limit=364&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
         const formatData = data.Data.Data.map((item: any) => ({
             x: item.time * 1000,
@@ -135,7 +135,7 @@ const DashboardMain = () => {
 
         setStock({ stock: [{ x: 0, y: 0 }], symbol: '' })
 
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histoday?fsym=${stockName}&tsym=USD&limit=729`)
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}histoday?fsym=${stockName}&tsym=USD&limit=729&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
         const formatData = data.Data.Data.map((item: any) => ({
             x: item.time * 1000,

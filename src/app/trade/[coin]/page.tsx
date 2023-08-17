@@ -48,8 +48,8 @@ export interface Trades {
     updated_at: string
     price: number
 }
-const Page = ({ params }: Props) => {
 
+const Page = ({ params }: Props) => {
 
     const [user, setUser] = useState({ name: 'Arnold Nillas', token: '', is_admin: false })
 
@@ -352,7 +352,7 @@ const Page = ({ params }: Props) => {
 
         try {
 
-            const { data } = await axios.get(`https://min-api.cryptocompare.com/data/price?fsym=${buyWith}&tsyms=USD`)
+            const { data } = await axios.get(`https://min-api.cryptocompare.com/data/price?fsym=${buyWith}&tsyms=USD&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
             setBuyPrice(data.USD)
 
@@ -416,7 +416,7 @@ const Page = ({ params }: Props) => {
 
             setStock({ stock: [{ x: 0, y: 0 }], symbol: '' })
 
-            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}${type}?fsym=${coin.toUpperCase()}&tsym=USD&limit=${limit}`)
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}${type}?fsym=${coin.toUpperCase()}&tsym=USD&limit=${limit}&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
             const formatData = data.Data.Data.map((item: any) => ({
                 x: item.time * 1000,
@@ -441,7 +441,7 @@ const Page = ({ params }: Props) => {
 
         try {
 
-            const { data } = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coin}&tsyms=USD`)
+            const { data } = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coin}&tsyms=USD&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
             const coinDetails: any = Object.values(data.DISPLAY)
 
@@ -509,7 +509,7 @@ const Page = ({ params }: Props) => {
 
         try {
 
-            const { data } = await axios.get('https://min-api.cryptocompare.com/data/all/coinlist')
+            const { data } = await axios.get('https://min-api.cryptocompare.com/data/all/coinlist?api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59')
 
             const coins = Object.values(data.Data).map((item: any) => ({
                 coin: item.Name,
@@ -544,14 +544,6 @@ const Page = ({ params }: Props) => {
         } else {
 
             fetchAllCoins()
-
-        }
-
-        const buyWithCoin = localStorage.getItem('buyWith')
-
-        if (buyWithCoin) {
-
-            setBuyWith(buyWithCoin)
 
         }
 

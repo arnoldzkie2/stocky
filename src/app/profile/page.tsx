@@ -11,11 +11,13 @@ import React, { useEffect, useState } from 'react'
 import { Trades } from '../trade/[coin]/page'
 import UserCoins from '@/components/profile/UserCoins'
 import UserTrades from '@/components/profile/UserTrades'
+import DepositModal from '@/components/profile/DepositModal'
 
 interface AllCoins {
   coin: string
   image: string
   amount: number
+  price: string
   value: number
 }
 
@@ -28,6 +30,13 @@ const Page = () => {
   const [searchQuery, setSearchQuery] = useState('')
 
   const [totalBalance, setTotalBalance] = useState(0)
+
+  const [isDeposit, setIsDeposit] = useState(false)
+
+  const [formData, setFormData] = useState({
+    coin: '',
+    amount: ''
+  })
 
   const [userCoins, setUserCoins] = useState<{ coin: string, amount: number }[]>([
     { coin: 'BTC', amount: 5.23 },
@@ -46,7 +55,7 @@ const Page = () => {
     { coin: 'LINK', amount: 240 },
     { coin: 'XMR', amount: 15.8 }
   ]);
-  
+
   const [myTrades, setMyTrades] = useState<Trades[]>([
     {
       "id": 1,
@@ -232,11 +241,14 @@ const Page = () => {
 
         const coinDetails: any = Object.values(data.RAW)
 
+        const price: any = Object.values(data.DISPLAY)
+
         const totalValue = item.amount * coinDetails[0].USD.PRICE
 
         const coinData = {
           coin: item.coin,
           amount: item.amount,
+          price: price[0].USD.PRICE,
           value: totalValue,
           image: `https://www.cryptocompare.com${coinDetails[0].USD.IMAGEURL}`,
         }
@@ -337,12 +349,14 @@ const Page = () => {
 
   return (
     <div className='overflow-x-hidden'>
+
+      {isDeposit && <DepositModal formData={formData} setFormData={setFormData} user={user} setIsDeposit={setIsDeposit} />}
       <UserHeader user={user} />
       <div className='px-5 sm:px-10 md:px-16 lg:px-24 w-screen h-screen xl:px-36 2xl:px-44 pt-16 flex flex-col text-slate-300'>
 
         <div className='lg:px-36 md:px-20 md:border-x md:border-slate-800 xl:px-52 w-full py-5 md:py-10 flex flex-col'>
 
-          <ProfileInfo user={user} totalBalance={totalBalance} />
+          <ProfileInfo user={user} totalBalance={totalBalance} setIsDeposit={setIsDeposit} />
 
           <div className='w-1/2 text-sm md:text-base lg:w-1/4 relative mb-5'>
             <input type="text" id='search-coin' placeholder='Search Coins' value={searchQuery} onChange={(e: any) => setSearchQuery(e.target.value)} className='px-4 py-2 bg-slate-800 text-slate-200 w-full outline-none' />

@@ -15,10 +15,13 @@ interface Props {
     }[]
 
     searchQuery: string
+
+
 }
 
 interface AllCoins {
     coin: string
+    price: string
     image: string
     amount: number
     value: number
@@ -37,13 +40,15 @@ const UserCoins: React.FC<Props> = ({ coins, skeleton, userCoins, searchQuery })
                             Coin
                         </th>
                         <th scope="col" className="px-6 py-3">
+                            Price
+                        </th>
+                        <th scope="col" className="px-6 py-3">
                             Amount
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Value
+                            Total Value
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Actions
                         </th>
                     </tr>
                 </thead>
@@ -56,6 +61,11 @@ const UserCoins: React.FC<Props> = ({ coins, skeleton, userCoins, searchQuery })
                             </th>
                             <td className="px-6 py-3">
                                 <div className='h-4 w-20'>
+                                    {item.price}
+                                </div>
+                            </td>
+                            <td className="px-6 py-3">
+                                <div className='h-4 w-20'>
                                     {item.amount}
                                 </div>
                             </td>
@@ -66,7 +76,6 @@ const UserCoins: React.FC<Props> = ({ coins, skeleton, userCoins, searchQuery })
                             </td>
                             <td className="px-6 py-3">
                                 <ul className='flex items-center gap-7'>
-                                    <li className='text-yellow-400 hover:text-yellow-300 cursor-pointer'>Deposit</li>
                                     <Link href={`/trade/${item.coin}`} className='text-yellow-400 hover:text-yellow-300'>Trade</Link>
                                 </ul>
                             </td>
@@ -105,17 +114,20 @@ const UserCoins: React.FC<Props> = ({ coins, skeleton, userCoins, searchQuery })
                                 : skeleton.map(item => (
                                     <tr className="bg-white border-b text-slate-200 dark:bg-gray-800 dark:border-gray-700" key={item}>
                                         <th scope="row" className="px-6 py-3 font-medium text-gray-900 flex items-center gap-3 whitespace-nowrap dark:text-white">
-                                            <div className='w-20 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                            <div className='w-[30px] h-[30px] rounded-full bg-slate-600 animate-pulse'></div>
+                                            <div className='w-16 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </th>
                                         <td className="px-6 py-3">
                                             <div className='w-20 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                        </td>
+                                        <td className="px-6 py-3">
+                                            <div className='w-28 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </td>
                                         <td className="px-6 py-3">
                                             <div className='w-32 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </td>
                                         <td className="px-6 py-3 h-[30px] text-lg">
                                             <div className='flex items-center gap-3'>
-                                                <div className='w-16 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                                 <div className='w-16 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                             </div>
                                         </td>

@@ -36,11 +36,15 @@ interface Props {
 
     operation: boolean
 
+    deleteUser: (userID: string) => Promise<void>
+
     setOperation: React.Dispatch<React.SetStateAction<boolean>>
+
+    setIsUpdating: React.Dispatch<React.SetStateAction<boolean>>
 
 }
 
-const UserTable: React.FC<Props> = ({ user, searchQuery, skeleton, operation, setOperation, selectedUser, selectedUserID, setSelectedUserID }) => {
+const UserTable: React.FC<Props> = ({ setIsUpdating, deleteUser, user, searchQuery, skeleton, operation, setOperation, setSelectedUser, selectedUserID, setSelectedUserID }) => {
 
     return (
         <div className={`relative overflow-x-auto w-full `}>
@@ -87,11 +91,14 @@ const UserTable: React.FC<Props> = ({ user, searchQuery, skeleton, operation, se
                                         View
                                         <FontAwesomeIcon icon={faEye} width={16} height={16} />
                                     </Link>
-                                    <li className='flex items-center hover:text-blue-400 cursor-pointer justify-between'>
+                                    <li onClick={() => {
+                                        setIsUpdating(true)
+                                        setSelectedUser(item)
+                                    }} className='flex items-center hover:text-blue-400 cursor-pointer justify-between'>
                                         Update
                                         <FontAwesomeIcon icon={faPenToSquare} width={16} height={16} />
                                     </li>
-                                    <li className='flex items-center hover:text-red-500 cursor-pointer justify-between'>
+                                    <li onClick={() => deleteUser(item.id)} className='flex items-center hover:text-red-500 cursor-pointer justify-between'>
                                         Delete
                                         <FontAwesomeIcon icon={faTrashCan} width={16} height={16} />
                                     </li>
@@ -142,7 +149,8 @@ const UserTable: React.FC<Props> = ({ user, searchQuery, skeleton, operation, se
                     }
                 </tbody>
             </table>
-        </div>)
+        </div>
+    )
 }
 
 export default UserTable

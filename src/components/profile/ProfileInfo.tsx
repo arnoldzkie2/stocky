@@ -9,9 +9,11 @@ interface Props {
   }
   totalBalance: number
 
+  setIsDeposit: React.Dispatch<React.SetStateAction<boolean>>
+
 }
 
-const ProfileInfo: React.FC<Props> = ({ user, totalBalance }) => {
+const ProfileInfo: React.FC<Props> = ({ user, totalBalance, setIsDeposit }) => {
 
   return (
     <>
@@ -23,7 +25,7 @@ const ProfileInfo: React.FC<Props> = ({ user, totalBalance }) => {
         </div>
 
         <ul className='flex items-center gap-5 md:gap-10 text-xs sm:text-sm md:text-base'>
-          <li className='cursor-pointer bg-yellow-500 hover:bg-yellow-400 text-white px-5 sm:px-6 md:px-7 rounded-md font-medium py-1.5'>Deposit</li>
+          <li onClick={() => setIsDeposit(true)} className='cursor-pointer bg-yellow-500 hover:bg-yellow-400 text-white px-5 sm:px-6 md:px-7 rounded-md font-medium py-1.5'>Deposit</li>
         </ul>
 
       </div>

@@ -2,6 +2,7 @@
 'use client'
 import AdminHeader from '@/components/admin/AdminHeader'
 import TraderHeader from '@/components/admin/TraderHeader'
+import UpdateUserModal from '@/components/admin/UpdateUserModal'
 import UserTable from '@/components/admin/UserTable'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -29,8 +30,7 @@ const Page = () => {
 
   const [skeleton, setSkeleton] = useState(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
 
-  const [allUser, setAllUser] = useState<AllUser[]>([]
-  )
+  const [allUser, setAllUser] = useState<AllUser[]>([])
 
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -58,6 +58,22 @@ const Page = () => {
 
   const [selectedUser, setSelectedUser] = useState({ name: '', email: '', password: '', is_admin: false, is_approved: false, id: '' })
 
+  const [isUpdating, setIsUpdating] = useState(false)
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+
+    const newValue = type === 'checkbox' ? checked : value;
+
+    setSelectedUser((prevFormData) => ({
+      ...prevFormData,
+      [name]: newValue
+    }));
+  };
+
+
   const getAllUser = async () => {
 
     try {
@@ -73,6 +89,55 @@ const Page = () => {
     }
   }
 
+  const deleteUser = async (userID: string) => {
+
+    try {
+
+      const { data } = await axios.delete(`${process.env.NEXT_PUBLIC_API_BACKEND}/api/v1/users/${userID}`)
+
+      if (data) {
+
+        getAllUser()
+        alert('Success.')
+        setOperation(false)
+        setSelectedUserID('')
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
+
+  const updateUser = async () => {
+
+    const { name, email, is_admin, is_approved, id, password } = selectedUser
+
+    try {
+
+      setIsSubmitting(true)
+
+      const { data } = await axios.patch(`${process.env.NEXT_PUBLIC_API_BACKEND}/api/v1/user`, {
+        name, email, is_admin, is_approved, password
+      })
+
+      if (data) {
+
+        getAllUser()
+        setIsUpdating(false)
+        setSelectedUser({ name: '', email: '', is_admin: false, is_approved: false, id: '', password: '' })
+        setIsSubmitting(false)
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  }
 
   useEffect(() => {
 
@@ -267,9 +332,12 @@ const Page = () => {
 
   }, [])
 
+
   return (
     <>
       <AdminHeader user={user} />
+
+      {isUpdating && <UpdateUserModal setIsUpdating={setIsUpdating} setSelectedUser={setSelectedUser} selectedUser={selectedUser} isSubmitting={isSubmitting} handleChange={handleChange} updateUser={updateUser} />}
 
       <div className='w-screen px-5 sm:px-10 md:px-16 lg:px-24 xl:px-36 2xl:px-44 flex flex-col pt-16 text-slate-300'>
 
@@ -286,7 +354,7 @@ const Page = () => {
               </label>
             </div>
 
-            <UserTable user={itemsOnCurrentPage} operation={operation} setOperation={setOperation} setSelectedUser={setSelectedUser} setSelectedUserID={setSelectedUserID} selectedUser={selectedUser} selectedUserID={selectedUserID} searchQuery={searchQuery} skeleton={skeleton} />
+            <UserTable setIsUpdating={setIsUpdating} deleteUser={deleteUser} user={itemsOnCurrentPage} operation={operation} setOperation={setOperation} setSelectedUser={setSelectedUser} setSelectedUserID={setSelectedUserID} selectedUser={selectedUser} selectedUserID={selectedUserID} searchQuery={searchQuery} skeleton={skeleton} />
 
             <div className='text-slate-300 flex justify-end items-center gap-5 py-5 w-full'>
               <button

@@ -14,6 +14,7 @@ interface AllCoins {
     coin: string
     image: string
     amount: number
+    price: string
     value: number
 }
 
@@ -242,34 +243,37 @@ const Page = ({ params }: Props) => {
     const fetchCoinPrice = async () => {
 
         try {
-
-            const res = await Promise.all(userCoins.map(async (item) => {
-
-                const { data } = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${item.coin}&tsyms=USD&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
-
-                const coinDetails: any = Object.values(data.RAW)
-
-                const totalValue = item.amount * coinDetails[0].USD.PRICE
-
-                const coinData = {
-                    coin: item.coin,
-                    amount: item.amount,
-                    value: totalValue,
-                    image: `https://www.cryptocompare.com${coinDetails[0].USD.IMAGEURL}`,
-                }
-
-                return coinData
-
-            }))
-
-            setModifiedCoins(res)
-
+    
+          const res = await Promise.all(userCoins.map(async (item) => {
+    
+            const { data } = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${item.coin}&tsyms=USD&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
+    
+            const coinDetails: any = Object.values(data.RAW)
+    
+            const price: any = Object.values(data.DISPLAY)
+    
+            const totalValue = item.amount * coinDetails[0].USD.PRICE
+    
+            const coinData = {
+              coin: item.coin,
+              amount: item.amount,
+              price: price[0].USD.PRICE,
+              value: totalValue,
+              image: `https://www.cryptocompare.com${coinDetails[0].USD.IMAGEURL}`,
+            }
+    
+            return coinData
+    
+          }))
+    
+          setModifiedCoins(res)
+    
         } catch (error) {
-
-            console.error(error);
-
+    
+          console.error(error);
+    
         }
-    }
+      }
 
     useEffect(() => {
 
@@ -364,6 +368,9 @@ const Page = ({ params }: Props) => {
                                         Coin
                                     </th>
                                     <th scope="col" className="px-6 py-3">
+                                        Price
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
                                         Amount
                                     </th>
                                     <th scope="col" className="px-6 py-3">
@@ -379,7 +386,12 @@ const Page = ({ params }: Props) => {
                                             <div className='text-white flex items-center w-20'>{item.coin}</div>
                                         </th>
                                         <td className="px-6 py-3">
-                                            <div className='h-4 w-20'>
+                                            <div className='h-4 w-28'>
+                                                {item.price}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-3">
+                                            <div className='h-4 w-28'>
                                                 {item.amount}
                                             </div>
                                         </td>
@@ -396,7 +408,10 @@ const Page = ({ params }: Props) => {
                                                 {currentUser?.name}
                                             </th>
                                             <td className="px-6 py-3">
-                                                Has no
+                                                Has
+                                            </td>
+                                            <td className="px-6 py-3">
+                                                0
                                             </td>
                                             <td className="px-6 py-3 h-[30px] text-lg">
                                                 Coins
@@ -417,10 +432,14 @@ const Page = ({ params }: Props) => {
                                             : skeleton.map(item => (
                                                 <tr className="bg-white border-b text-slate-200 dark:bg-gray-800 dark:border-gray-700" key={item}>
                                                     <th scope="row" className="px-6 py-3 font-medium text-gray-900 flex items-center gap-3 whitespace-nowrap dark:text-white">
-                                                        <div className='w-20 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                                        <div className='w-[30px] h-[30px] rounded-full bg-slate-600 animate-pulse'></div>
+                                                        <div className='w-16 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                                     </th>
                                                     <td className="px-6 py-3">
-                                                        <div className='w-20 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                                        <div className='w-28 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                                    </td>
+                                                    <td className="px-6 py-3">
+                                                        <div className='w-28 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                                     </td>
                                                     <td className="px-6 py-3">
                                                         <div className='w-32 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>

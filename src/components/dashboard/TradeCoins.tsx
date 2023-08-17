@@ -66,7 +66,7 @@ const TradeCoins = () => {
 
         try {
 
-            const { data } = await axios.get('https://min-api.cryptocompare.com/data/all/coinlist')
+            const { data } = await axios.get('https://min-api.cryptocompare.com/data/all/coinlist?api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59')
 
             const coins = Object.values(data.Data).map((item: any) => ({
                 coin: item.Name,
@@ -107,7 +107,7 @@ const TradeCoins = () => {
 
         try {
 
-            const { data } = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${item}&tsyms=USD`)
+            const { data } = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${item}&tsyms=USD&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
             const coinDetails: any = Object.values(data.DISPLAY)
 
@@ -147,7 +147,7 @@ const TradeCoins = () => {
 
             const res: any = await Promise.all(listCoins.map(async (item) => {
 
-                const { data } = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${item}&tsyms=USD`)
+                const { data } = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${item}&tsyms=USD&api_key=fa1ddd2aaeb250a7c16e7cbd9b7ccae1cd95f700c4354b015bdc1787ae8a4e59`)
 
                 const coinDetails: any = Object.values(data.DISPLAY)
 
@@ -282,7 +282,7 @@ const TradeCoins = () => {
                                     </div>
                                 </td>
                                 <td className="px-5 py-3 md:px-6 md:py-4">
-                                    <div className='h-4 w-16'>
+                                    <div className='h-4 w-28'>
                                         {item.data.MKTCAP}
                                     </div>
                                 </td>
@@ -325,10 +325,10 @@ const TradeCoins = () => {
                                             <div className='w-24 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </td>
                                         <td className="px-5 py-3 md:px-6 md:py-4 flex items-center gap-2">
-                                            <div className='w-16 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                            <div className='w-24 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </td>
                                         <td className="px-5 py-3 md:px-6 md:py-4">
-                                            <div className='w-24 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
+                                            <div className='w-28 h-[30px] rounded-3xl bg-slate-600 animate-pulse'></div>
                                         </td>
                                         <td className="px-5 py-3 md:px-6 md:py-4 h-[30px] text-lg">
                                             <FontAwesomeIcon icon={faSpinner} width={16} height={16} className='animate-spin' />
